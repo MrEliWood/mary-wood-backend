@@ -1,6 +1,7 @@
 [
 	{
-		"origin": ["http://localhost:3000", "http://localhost:3001", "https://*", "http://*"],
+		"origin": ["http://localhost:3000", "http://localhost:3001", "https://mary-wood-ayjx4ajsy-mreliwood.vercel.app", "https://vercel.com/mreliwood/mary-wood/5roydCZyEv3KS8QitHgFSF1u334h", "https://mary-wood-git-main-mreliwood.vercel.app", "https://mary-wood-mreliwood.vercel.app", "https://mary-wood.vercel.app"],
+
 		"method": ["GET", "POST", "PUT", "DELETE"],
 		"responseHeader": ["Content-Type"],
 		"maxAgeSeconds": 3600
