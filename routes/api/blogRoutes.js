@@ -77,7 +77,7 @@ router.delete('/:id', async (req, res) => {
 		const user = jwt.verify(token, process.env.JWT_SECRET);
 		if (!user) return res.status(401).json({ error: 'You must be logged in to edit a blog post.' });
 
-		const blog = await Blog.destroy({ where: { id: req.params.id } });
+		const blog = await Blog.update({ deleted: true }, { where: { id: req.params.id } });
 		if (!blog) return res.status(404).json({ error: 'This blog could not be found.' });
 
 		return res.status(200).json({ message: 'Blog deleted!', blog });
