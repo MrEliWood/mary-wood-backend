@@ -35,6 +35,18 @@ Blog.init(
 		text: {
 			type: DataTypes.TEXT,
 			allowNull: false
+		},
+
+		published: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			defaultValue: false
+		},
+
+		deleted: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			defaultValue: false
 		}
 	},
 	{
