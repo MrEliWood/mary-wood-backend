@@ -1,14 +1,9 @@
-const { Model, DataTypes } = require('sequelize');
-const bcrypt = require('bcrypt');
+import { Model, DataTypes } from 'sequelize';
 
-const sequelize = require('../config/connection');
+import sequelize from '../config/connection.js';
+import { hashPassword } from '../utils/index.js';
 
 class User extends Model {}
-
-const hashPassword = async (user) => {
-	user.password = await bcrypt.hash(user.password, 5);
-	return user;
-};
 
 User.init(
 	{
@@ -47,4 +42,4 @@ User.init(
 	}
 );
 
-module.exports = User;
+export default User;

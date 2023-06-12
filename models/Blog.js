@@ -1,6 +1,6 @@
-const { Model, DataTypes } = require('sequelize');
+import { Model, DataTypes } from 'sequelize';
 
-const sequelize = require('../config/connection');
+import sequelize from '../config/connection.js';
 
 class Blog extends Model {}
 
@@ -28,8 +28,7 @@ Blog.init(
 		},
 
 		caption: {
-			type: DataTypes.STRING,
-			allowNull: true
+			type: DataTypes.STRING
 		},
 
 		text: {
@@ -47,6 +46,11 @@ Blog.init(
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
 			defaultValue: false
+		},
+
+		publishedAt: {
+			type: DataTypes.DATE,
+			defaultValue: null
 		}
 	},
 	{
@@ -58,4 +62,4 @@ Blog.init(
 	}
 );
 
-module.exports = Blog;
+export default Blog;

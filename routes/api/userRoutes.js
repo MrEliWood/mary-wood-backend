@@ -1,12 +1,12 @@
-const router = require('express').Router();
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+import express from 'express';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const { User } = require('../../models');
+import { User } from '../../models/index.js';
 
-const admin_id = 1;
-const user_id = 2;
+const router = express.Router();
 
 // GET all users
 router.get('/', async (req, res) => {
@@ -35,30 +35,26 @@ router.get('/:id', async (req, res) => {
 // POST user login
 router.post('/login', async (req, res) => {
 	try {
-		const user = await User.findByPk(user_id);
+		const user = await User.findByPk(req.body.id);
 		if (!user) return res.status(400).json({ error: 'This user could not be found.' });
 
 		const passwordMatch = await bcrypt.compare(req.body.password, user.password);
 		if (!passwordMatch) return res.status(400).json({ error: 'Login failed.' });
 
-		const token = jwt.sign({ user }, process.env.JWT_SECRET);
+		const token = jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: 10 });
 		return res.status(200).json({ token, user });
 	} catch (error) {
 		return res.status(500).json({ error });
 	}
 });
 
-// POST admin login
-router.post('/admin', async (req, res) => {
+// TOKEN TEST
+router.get('/token', async (req, res) => {
 	try {
-		const user = await User.findByPk(admin_id);
-		if (!user) return res.status(400).json({ error: 'This user could not be found.' });
+		const token = req.body.token;
+		const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-		const passwordMatch = await bcrypt.compare(req.body.password, user.password);
-		if (!passwordMatch) return res.status(400).json({ error: 'Login failed.' });
-
-		const token = jwt.sign({ user }, process.env.JWT_SECRET);
-		return res.status(200).json({ token, user });
+		return res.status(200).json({ decoded });
 	} catch (error) {
 		return res.status(500).json({ error });
 	}
@@ -92,7 +88,7 @@ router.put('/cpw/:id', async (req, res) => {
 // PUT password override
 router.put('/pwo', async (req, res) => {
 	try {
-		const user = await User.findByPk(admin_id);
+		const user = await User.findByPk(process.env.ADMIN_ID);
 		if (!user) return res.status(400).json({ error: 'This user could not be found.' });
 
 		const passwordMatch = await bcrypt.compare(req.body.password, user.password);
@@ -103,7 +99,7 @@ router.put('/pwo', async (req, res) => {
 				password: 'password'
 			},
 			{
-				where: { id: user_id },
+				where: { id: process.env.USER_ID },
 				individualHooks: true
 			}
 		);
@@ -114,4 +110,4 @@ router.put('/pwo', async (req, res) => {
 	}
 });
 
-module.exports = router;
+export default router;

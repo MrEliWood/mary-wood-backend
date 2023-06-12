@@ -1,6 +1,6 @@
-const { Model, DataTypes } = require('sequelize');
+import { Model, DataTypes } from 'sequelize';
 
-const sequelize = require('../config/connection');
+import sequelize from '../config/connection.js';
 
 class Image extends Model {}
 
@@ -36,4 +36,4 @@ Image.init(
 	}
 );
 
-module.exports = Image;
+export default Image;

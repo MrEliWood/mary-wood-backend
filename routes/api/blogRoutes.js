@@ -1,12 +1,11 @@
-const router = require('express').Router();
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const { Blog } = require('../../models');
+import { Blog } from '../../models/index.js';
 
-const admin_id = 1;
-const user_id = 2;
+const router = express.Router();
 
 // GET all blogs
 router.get('/', async (req, res) => {
@@ -86,4 +85,4 @@ router.delete('/:id', async (req, res) => {
 	}
 });
 
-module.exports = router;
+export default router;

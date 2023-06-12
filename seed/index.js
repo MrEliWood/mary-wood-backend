@@ -1,55 +1,15 @@
-const sequelize = require('../config/connection');
-const { User, Blog, Image } = require('../models');
+import sequelize from '../config/connection.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const placeholderText = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus laboriosam perferendis fugit debitis, odit eaque ipsam sed quam magni eligendi aspernatur quos cumque fugiat consectetur, velit similique consequuntur aut enim.';
-const placeholderImage = 'http://placekitten.com/200/300';
+import { generateBlogSeeds, generateImageSeeds, generateUserSeeds } from '../utils/index.js';
+import { User, Blog, Image } from '../models/index.js';
 
-const users = [
-	{
-		id: 1,
-		username: 'admin',
-		password: 'password'
-	},
-	{
-		id: 2,
-		username: 'mary',
-		password: 'password'
-	}
-];
+const numberOfBlogs = 10;
 
-const blogs = [
-	{
-		author_id: 2,
-		title: 'The First Blog',
-		caption: 'The nicest blog there ever was and ever will be',
-		text: placeholderText
-	},
-	{
-		author_id: 2,
-		title: 'The Second Blog',
-		caption: 'If only every blog was like this one',
-		text: placeholderText
-	}
-];
-
-const images = [
-	{
-		blog_id: 1,
-		src: placeholderImage
-	},
-	{
-		blog_id: 2,
-		src: placeholderImage
-	},
-	{
-		blog_id: 2,
-		src: placeholderImage
-	},
-	{
-		blog_id: 2,
-		src: placeholderImage
-	}
-];
+const users = generateUserSeeds();
+const blogs = generateBlogSeeds(numberOfBlogs);
+const images = generateImageSeeds(numberOfBlogs);
 
 const seed = async () => {
 	try {

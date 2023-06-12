@@ -1,6 +1,6 @@
-const User = require('./User');
-const Blog = require('./Blog');
-const Image = require('./Image');
+import User from './User.js';
+import Blog from './Blog.js';
+import Image from './Image.js';
 
 User.hasMany(Blog, {
 	foreignKey: 'author_id'
@@ -22,4 +22,4 @@ Image.belongsTo(Blog, {
 	onDelete: 'CASCADE'
 });
 
-module.exports = { User, Blog, Image };
+export { User, Blog, Image };
