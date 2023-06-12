@@ -14,11 +14,11 @@ const generateBlogSeeds = (numberOfBlogs) => {
 
 		const caption = loremIpsum({
 			count: getRandomNumber(1, 2),
-			units: 'paragraphs'
+			units: 'sentences'
 		});
 
 		const text = loremIpsum({
-			count: getRandomNumber(1, 10),
+			count: getRandomNumber(1, 5),
 			units: 'paragraphs'
 		});
 

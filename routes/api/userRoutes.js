@@ -41,20 +41,8 @@ router.post('/login', async (req, res) => {
 		const passwordMatch = await bcrypt.compare(req.body.password, user.password);
 		if (!passwordMatch) return res.status(400).json({ error: 'Login failed.' });
 
-		const token = jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: 10 });
+		const token = jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: 24 * 60 * 60 });
 		return res.status(200).json({ token, user });
-	} catch (error) {
-		return res.status(500).json({ error });
-	}
-});
-
-// TOKEN TEST
-router.get('/token', async (req, res) => {
-	try {
-		const token = req.body.token;
-		const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-		return res.status(200).json({ decoded });
 	} catch (error) {
 		return res.status(500).json({ error });
 	}
