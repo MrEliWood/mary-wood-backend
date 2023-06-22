@@ -10,7 +10,7 @@ const router = express.Router();
 // GET all blogs
 router.get('/', async (req, res) => {
 	try {
-		const blogs = await Blog.findAll({ include: { all: true, nested: true } });
+		const blogs = await Blog.findAll({ include: { all: true, nested: true }, order: [['publishedAt', 'DESC']] });
 		if (!blogs) return res.status(404).json({ error: 'There are no blogs.' });
 
 		return res.status(200).json(blogs);
