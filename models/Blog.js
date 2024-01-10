@@ -28,7 +28,8 @@ Blog.init(
 		},
 
 		caption: {
-			type: DataTypes.STRING
+			type: DataTypes.STRING,
+			defaultValue: null
 		},
 
 		text: {

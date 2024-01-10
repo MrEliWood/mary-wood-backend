@@ -10,11 +10,13 @@ const router = express.Router();
 // GET all blogs
 router.get('/', async (req, res) => {
 	try {
-		const blogs = await Blog.findAll({ include: { all: true, nested: true }, order: [['publishedAt', 'DESC']] });
+		const blogs = await Blog.findAll({ include: { all: true, nested: true }, order: [['updatedAt', 'DESC']] });
 		if (!blogs) return res.status(404).json({ error: 'There are no blogs.' });
 
 		return res.status(200).json(blogs);
 	} catch (error) {
+		console.error(error);
+
 		return res.status(500).json({ error });
 	}
 });
@@ -27,6 +29,8 @@ router.get('/:id', async (req, res) => {
 
 		return res.status(200).json(blog);
 	} catch (error) {
+		console.error(error);
+
 		return res.status(500).json({ error });
 	}
 });
@@ -34,7 +38,7 @@ router.get('/:id', async (req, res) => {
 // POST new blog
 router.post('/', async (req, res) => {
 	try {
-		const token = req.headers?.authorization?.split(' ').pop();
+		const token = req.headers?.authorization;
 		if (!token) return res.status(401).json({ error: 'You must be logged in to create a new blog post.' });
 
 		const user = jwt.verify(token, process.env.JWT_SECRET);
@@ -45,6 +49,8 @@ router.post('/', async (req, res) => {
 
 		return res.status(200).json(blog);
 	} catch (error) {
+		console.error(error);
+
 		return res.status(500).json({ error });
 	}
 });
@@ -52,7 +58,7 @@ router.post('/', async (req, res) => {
 // PUT update blog
 router.put('/:id', async (req, res) => {
 	try {
-		const token = req.headers?.authorization?.split(' ').pop();
+		const token = req.headers?.authorization;
 		if (!token) return res.status(401).json({ error: 'You must be logged in to edit a blog post.' });
 
 		const user = jwt.verify(token, process.env.JWT_SECRET);
@@ -63,6 +69,8 @@ router.put('/:id', async (req, res) => {
 
 		return res.status(200).json({ message: 'Blog updated!', blog });
 	} catch (error) {
+		console.error(error);
+
 		return res.status(500).json({ error });
 	}
 });
@@ -70,7 +78,7 @@ router.put('/:id', async (req, res) => {
 // DELETE blog
 router.delete('/:id', async (req, res) => {
 	try {
-		const token = req.headers?.authorization?.split(' ').pop();
+		const token = req.headers?.authorization;
 		if (!token) return res.status(401).json({ error: 'You must be logged in to edit a blog post.' });
 
 		const user = jwt.verify(token, process.env.JWT_SECRET);
@@ -81,6 +89,8 @@ router.delete('/:id', async (req, res) => {
 
 		return res.status(200).json({ message: 'Blog deleted!', blog });
 	} catch (error) {
+		console.error(error);
+
 		return res.status(500).json({ error });
 	}
 });
