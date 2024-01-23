@@ -16,6 +16,7 @@ router.get('/', async (req, res) => {
 
 		return res.status(200).json(users);
 	} catch (error) {
+		console.error(error);
 		return res.status(500).json({ error });
 	}
 });
@@ -28,6 +29,24 @@ router.get('/:id', async (req, res) => {
 
 		return res.status(200).json(user);
 	} catch (error) {
+		console.error(error);
+		return res.status(500).json({ error });
+	}
+});
+
+// GET verify token
+router.post('/token', async (req, res) => {
+	try {
+		const token = req.headers?.authorization;
+		if (!token) return res.status(401).json({ error: 'You must be logged in to create a new blog post.' });
+
+		const user = jwt.verify(token, process.env.JWT_SECRET);
+		if (!user) return res.status(401).json({ error: 'You must be logged in to create a new blog post.' });
+
+		return res.status(200).json(token);
+	} catch (error) {
+		console.error(error);
+
 		return res.status(500).json({ error });
 	}
 });
@@ -44,6 +63,7 @@ router.post('/login', async (req, res) => {
 		const token = jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: '1d' });
 		return res.status(200).json({ token, user });
 	} catch (error) {
+		console.error(error);
 		return res.status(500).json({ error });
 	}
 });
@@ -69,6 +89,7 @@ router.put('/cpw/:id', async (req, res) => {
 
 		return res.status(200).json({ message: 'Password changed!', updatedUser });
 	} catch (error) {
+		console.error(error);
 		return res.status(500).json({ error });
 	}
 });
@@ -94,6 +115,7 @@ router.put('/pwo', async (req, res) => {
 
 		return res.status(200).json({ message: 'Password changed!', updatedUser });
 	} catch (error) {
+		console.error(error);
 		return res.status(500).json({ error });
 	}
 });
